@@ -1,0 +1,452 @@
+/* Garmin Coach — foglio di stile unico, servito in linea.
+ *
+ * In linea e non come file separato per una ragione sola: cosi la pagina non
+ * fa nessuna richiesta oltre a se stessa, e la modalita offline e vera per
+ * costruzione invece che per promessa. Nessun CDN, nessun font remoto.
+ *
+ * I colori sono dichiarati due volte, chiaro e scuro, e la scelta la fa il
+ * sistema operativo. Non c'e un interruttore: e una preferenza che l'atleta ha
+ * gia espresso altrove, e chiedergliela di nuovo sarebbe un'impostazione in piu
+ * da mantenere. */
+
+:root {
+  --sfondo: #fbfbfa;
+  --carta: #ffffff;
+  --bordo: #e3e1dd;
+  --testo: #1c1b19;
+  --testo-tenue: #5f5c57;
+  --accento: #1a5f7a;
+  --attenzione: #8a5a00;
+  --attenzione-sfondo: #fdf6e6;
+  --assente: #8b8781;
+  --raggio: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sfondo: #17181a;
+    --carta: #1f2124;
+    --bordo: #33363b;
+    --testo: #eceae7;
+    --testo-tenue: #a9a5a0;
+    --accento: #79c0d9;
+    --attenzione: #e0b458;
+    --attenzione-sfondo: #2a2313;
+    --assente: #7d7a73;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--sfondo);
+  color: var(--testo);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ── Navigazione ─────────────────────────────────────────────────────── */
+
+nav {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  background: var(--carta);
+  border-bottom: 1px solid var(--bordo);
+  overflow-x: auto;
+}
+
+.area {
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--raggio);
+  color: var(--testo-tenue);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.area:hover { background: var(--sfondo); color: var(--testo); }
+
+.area.attiva {
+  background: var(--accento);
+  color: var(--carta);
+  font-weight: 600;
+}
+
+/* Il focus si deve vedere: e l'unico modo di sapere dove si e, navigando da
+ * tastiera. Toglierlo perche "e brutto" rende la pagina inutilizzabile. */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--accento);
+  outline-offset: 2px;
+}
+
+main { max-width: 46rem; margin: 0 auto; padding: 1rem 1rem 4rem; }
+
+/* ── L'osservazione: la prima cosa che si legge ───────────────────────── */
+
+.freschezza {
+  color: var(--testo-tenue);
+  font-size: 0.85rem;
+  margin: 0 0 0.75rem;
+}
+
+.freschezza.vecchia {
+  color: var(--attenzione);
+  background: var(--attenzione-sfondo);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--raggio);
+}
+
+.osservazione {
+  background: var(--carta);
+  border: 1px solid var(--bordo);
+  border-left: 4px solid var(--accento);
+  border-radius: var(--raggio);
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.25rem;
+}
+
+.osservazione.da-osservare { border-left-color: var(--attenzione); }
+.osservazione.dati-insufficienti { border-left-color: var(--assente); }
+
+.domanda {
+  margin: 0 0 0.4rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--testo-tenue);
+}
+
+.osservazione p.testo {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+.etichetta-stato {
+  display: inline-block;
+  margin-top: 0.7rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  border: 1px solid var(--bordo);
+  color: var(--testo-tenue);
+}
+
+/* ── Evidenze ─────────────────────────────────────────────────────────── */
+
+h2 { font-size: 1rem; margin: 1.5rem 0 0.5rem; }
+
+.prove { list-style: none; margin: 0; padding: 0; }
+
+.prova {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--bordo);
+}
+
+.prova .nome { flex: 1 1 9rem; }
+.prova .valore { font-variant-numeric: tabular-nums; font-weight: 600; }
+.prova .fascia, .prova .contesto {
+  flex-basis: 100%;
+  font-size: 0.82rem;
+  color: var(--testo-tenue);
+}
+
+.prova.assente .valore, .prova.assente .nome { color: var(--assente); }
+
+.fuori { color: var(--attenzione); font-weight: 600; }
+
+/* ── Perche?: il dettaglio si apre, non occupa ────────────────────────── */
+
+details.perche {
+  margin-top: 1.5rem;
+  background: var(--carta);
+  border: 1px solid var(--bordo);
+  border-radius: var(--raggio);
+  padding: 0.6rem 0.9rem;
+}
+
+details.perche summary { cursor: pointer; font-weight: 600; }
+
+.scheda-metrica {
+  border-top: 1px solid var(--bordo);
+  padding: 0.6rem 0;
+  font-size: 0.87rem;
+}
+
+.scheda-metrica dt { color: var(--testo-tenue); font-size: 0.8rem; }
+.scheda-metrica dd { margin: 0 0 0.35rem; }
+
+/* ── Collegamenti alle sedute ─────────────────────────────────────────── */
+
+.sedute { list-style: none; margin: 0; padding: 0; }
+
+.sedute a {
+  display: block;
+  padding: 0.65rem 0.8rem;
+  margin-bottom: 0.35rem;
+  background: var(--carta);
+  border: 1px solid var(--bordo);
+  border-radius: var(--raggio);
+  color: var(--testo);
+  text-decoration: none;
+}
+
+.sedute a:hover { border-color: var(--accento); }
+
+.nome-seduta { color: var(--testo-tenue); font-size: 0.85rem; }
+
+/* ── Limiti e contrari ────────────────────────────────────────────────── */
+
+.limiti { padding-left: 1.1rem; color: var(--testo-tenue); font-size: 0.9rem; }
+
+.prossima {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  background: var(--carta);
+  border: 1px dashed var(--bordo);
+  border-radius: var(--raggio);
+}
+
+/* ── Schermi stretti: 360 px e un vincolo, non un caso limite ─────────── */
+
+@media (max-width: 420px) {
+  main { padding: 0.75rem 0.75rem 3rem; }
+  .osservazione p.testo { font-size: 1.05rem; }
+  nav { flex-wrap: wrap; overflow-x: visible; }
+  .area {
+    flex: 1 1 calc(33.333% - 0.25rem);
+    padding: 0.45rem 0.35rem;
+    text-align: center;
+  }
+}
+
+/* ── Sedute ───────────────────────────────────────────────────────────── */
+
+.dettaglio {
+  font-size: 0.8rem;
+  color: var(--accento);
+  margin-top: 0.15rem;
+}
+
+.dettaglio.assente { color: var(--assente); }
+
+.riconoscimento {
+  flex-basis: 100%;
+  font-size: 0.8rem;
+  color: var(--testo-tenue);
+}
+
+/* «riconosciuta» e la normalita e non si evidenzia; le altre due sono un
+ * avvertimento sull'interpretazione, non sul dato. */
+.riconoscimento[data-stato="incerta"],
+.riconoscimento[data-stato="non riconosciuta"] { color: var(--attenzione); }
+
+.nota { font-size: 0.85rem; color: var(--testo-tenue); margin: 0 0 0.6rem; }
+
+.ritorno { margin-top: 2rem; }
+.ritorno a { color: var(--accento); }
+
+/* ── Progressi ────────────────────────────────────────────────────────── */
+
+.grafico {
+  width: 100%;
+  height: auto;
+  background: var(--carta);
+  border: 1px solid var(--bordo);
+  border-radius: var(--raggio);
+  padding: 0.5rem;
+}
+
+.barra { fill: var(--bordo); }
+.barra.evidenziata { fill: var(--accento); }
+
+.casi { list-style: none; margin: 0; padding: 0; }
+
+.caso {
+  background: var(--carta);
+  border: 1px solid var(--bordo);
+  border-radius: var(--raggio);
+  padding: 0.8rem 0.9rem;
+  margin-bottom: 0.6rem;
+}
+
+.caso .contesto { display: block; font-size: 0.82rem; color: var(--testo-tenue); }
+
+.esiti {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.88rem;
+}
+
+/* ── Moduli: le uniche parti che scrivono ─────────────────────────────── */
+
+.modulo {
+  background: var(--carta);
+  border: 1px solid var(--bordo);
+  border-radius: var(--raggio);
+  padding: 1rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.campo { display: grid; gap: 0.2rem; }
+
+.campo label { font-size: 0.85rem; color: var(--testo-tenue); }
+
+.campo input, .campo select {
+  padding: 0.5rem;
+  border: 1px solid var(--bordo);
+  border-radius: 6px;
+  background: var(--sfondo);
+  color: var(--testo);
+  font: inherit;
+  width: 100%;
+}
+
+.modulo button {
+  justify-self: start;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: var(--raggio);
+  background: var(--accento);
+  color: var(--carta);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.errore {
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--raggio);
+  background: var(--attenzione-sfondo);
+  color: var(--attenzione);
+  border: 1px solid var(--attenzione);
+}
+
+.riuscito {
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--raggio);
+  background: var(--carta);
+  border: 1px solid var(--accento);
+  color: var(--accento);
+}
+
+/* ── Chiedi ───────────────────────────────────────────────────────────── */
+
+.testo-domanda { font-size: 1.02rem; margin-bottom: 0.4rem; }
+
+.modulo-domanda {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--bordo);
+}
+
+.modulo-domanda .testo-domanda {
+  grid-column: 3;
+  grid-row: 1;
+  margin: 0;
+}
+
+.modulo-domanda button {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--accento);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--accento);
+  font: inherit;
+  cursor: pointer;
+}
+
+.modulo-domanda button:hover { background: var(--accento); color: var(--carta); }
+
+@media (max-width: 420px) {
+  .modulo-domanda { grid-template-columns: 1fr 1fr; }
+  .modulo-domanda .testo-domanda {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  .modulo-domanda button { grid-row: 2; }
+}
+
+.caso textarea {
+  width: 100%;
+  margin-top: 0.6rem;
+  padding: 0.5rem;
+  border: 1px solid var(--bordo);
+  border-radius: 6px;
+  background: var(--sfondo);
+  color: var(--testo);
+  font: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.caso button {
+  margin-top: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--accento);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--accento);
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ── Da decidere ──────────────────────────────────────────────────────── */
+
+.dubbio {
+  border: 1px solid var(--bordo);
+  border-left: 3px solid var(--attenzione);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  margin: 1rem 0;
+}
+
+.dubbio h2 { margin-top: 0; }
+.dubbio h3 { font-size: 0.86rem; text-transform: uppercase;
+             letter-spacing: 0.04em; color: var(--assente); margin: 0.9rem 0 0.3rem; }
+/* `.domanda` in generale è un'etichetta corta e maiuscoletta. Qui è una frase
+   intera rivolta all'atleta, e una frase intera tutta in maiuscolo non si legge:
+   riprende la forma del testo normale, con il peso di una domanda vera. */
+.dubbio .domanda {
+  font-weight: 600;
+  font-size: 1.02rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--testo);
+  margin: 0.6rem 0 0.2rem;
+}
+.dubbio textarea {
+  width: 100%;
+  margin: 0.35rem 0 0.6rem;
+  padding: 0.5rem;
+  border: 1px solid var(--bordo);
+  border-radius: 6px;
+  background: var(--sfondo);
+  color: var(--testo);
+  font: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.scelte-decisione { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.scelte-decisione button {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--accento);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--accento);
+  font: inherit;
+  cursor: pointer;
+}
+
+.scelte-decisione button:hover { background: var(--accento); color: var(--sfondo); }

@@ -1,0 +1,4 @@
+<!-- Adapted from Coach Watts fitness/FitnessSummaryCards.vue, Apache-2.0.
+     Modified: measured swimming/recovery values, explicit missing values. -->
+<script setup lang="ts">defineProps<{items:any[]}>()</script>
+<template><div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"><div v-for="(item,i) in items" :key="item.label" class="rounded-xl p-4 border" :class="['bg-blue-900/10 border-blue-800/40','bg-purple-900/10 border-purple-800/40','bg-emerald-900/10 border-emerald-800/40','bg-amber-900/10 border-amber-800/40'][i%4]"><div class="flex items-center justify-between mb-2"><span class="eyebrow">{{item.label}}</span><UIcon :name="item.icon||'i-lucide-activity'" class="size-4 text-green-400"/></div><div class="metric">{{item.value??'—'}} <span class="text-xs text-zinc-400 font-medium tracking-normal">{{item.unit}}</span></div><p class="text-xs text-zinc-500 mt-1">{{item.note}}</p></div></div></template>

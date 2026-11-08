@@ -1,0 +1,39 @@
+# Artefatti generati — Regola Aurea n.1, punto 5
+data/
+*.duckdb
+*.duckdb.wal
+*.sqlite
+
+# Sorgenti personali e archivio storico — mai versionati
+/garmin-export/
+/_DA-ELIMINARE-progetto-precedente/
+
+# Ambienti e cache
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+frontend/node_modules/
+frontend/.nuxt/
+frontend/.output/
+frontend/.data/
+
+# Credenziali — mai versionate
+.env
+.garminconnect/
+garmin_token/
+*.token
+
+# Pacchetto installato in modalita sviluppo
+*.egg-info/
+
+# Tempi gara di altre persone — restano sul disco, fuori dalla cronologia
+# Non sono la memoria dell'atleta (Regola Aurea n.3) e non sono dati suoi:
+# l'importatore parte da coach/aquatime/ e non li raggiunge.
+/coach/compagni_squadra/
+
+# Programmi scritti dall'allenatore — restano sul disco, fuori dalla cronologia.
+# Sono lavoro di un'altra persona: non e' nostro da pubblicare. Il LEGGIMI che
+# spiega cosa metterci resta versionato, cosi' la cartella non e' un mistero.
+/coach/programmi/*
+!/coach/programmi/LEGGIMI.md
